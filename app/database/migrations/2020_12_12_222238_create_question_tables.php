@@ -14,18 +14,28 @@ class CreateQuestionTables extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id')->unsigned();
             $table->unsignedInteger('parent_id')->nullable();
             $table->text('question');
             $table->timestamps();
+
+            $table->foreign('parent_id')
+                ->references('id')
+                ->on('questions')
+                ->onDelete('cascade');
         });
 
         Schema::create('answers', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id')->unsigned();
             $table->uuid('user_id')->nullable();
             $table->unsignedInteger('question_id');
             $table->text('answer');
             $table->timestamps();
+
+            $table->foreign('question_id')
+                ->references('id')
+                ->on('questions')
+                ->onDelete('cascade');
         });
     }
 
@@ -36,6 +46,9 @@ class CreateQuestionTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('question_tables');
+        Schema::disableForeignKeyConstraints();
+
+        Schema::dropIfExists('answers');
+        Schema::dropIfExists('questions');
     }
 }
