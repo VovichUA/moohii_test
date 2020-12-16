@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class Answer
+ * @property mixed answer
  * @package App
+ * @method static create(array $input)
+ * @method static where(string $string, \Ramsey\Uuid\Uuid $user_id)
  */
 class Answer extends Model
 {
