@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Question;
 
 /**
@@ -13,12 +14,12 @@ class MainController
 {
     public function index()
     {
-        $questions = Question::all();
+        $questions = Question::with(['child','parent'])->get();
 
         $data = [
             'questions' => $questions
         ];
 
-        return view('form');
+        return view('form', $data);
     }
 }
